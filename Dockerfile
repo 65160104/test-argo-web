@@ -1,5 +1,3 @@
-
-
 # ใช้ภาพฐานของ Node.js
 FROM node:18
 
