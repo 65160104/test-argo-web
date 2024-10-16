@@ -13,7 +13,8 @@ spec:
         app: test-argo-web
     spec:
       containers:
-        - name: test-argo-web
-          image: node:18
-          ports:
-            - containerPort: 3000
+      - name: test-argo-web
+        image: node:18
+        command: ["node", "server.js"]  # ตรวจสอบว่าได้ระบุคำสั่งที่ถูกต้อง
+        ports:
+        - containerPort: 3000
