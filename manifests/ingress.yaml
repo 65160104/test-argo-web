@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: test-argo-web.example.com # เปลี่ยนเป็นโดเมนของคุณ
+    - host: test-argo-web.example.com
       http:
         paths:
           - path: /

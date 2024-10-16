@@ -7,5 +7,5 @@ spec:
     app: test-argo-web
   ports:
     - protocol: TCP
-      port: 80 # พอร์ตที่เปิดให้เข้าถึงจากภายนอก
-      targetPort: 3000 # พอร์ตที่คอนเทนเนอร์ทำงาน
+      port: 80
+      targetPort: 3000
