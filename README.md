@@ -1,16 +1,20 @@
 # Deploy React application to GKE
 
 - Directory structure
+
   ```mermaid
   flowchart TD;
   A[root dir]-->B[Todo List app]
   A-->C[Pulumi code]
+
+  ```
 
 - React app (Todo List app)
   ```mermaid
   flowchart TD;
   A[React App]-->B[React app files]
   A-->C[Dockerfile]
+  ```
 - Build Docker image for our react todo list application.
   - ```sh
     docker build -t us.gcr.io/$GCP_PROJECT_ID/react-todolist-app .
@@ -20,11 +24,12 @@
     docker push us.gcr.io/$GCP_PROJECT_ID/react-todolist-app
     ```
 - ### Write Pulumi Scripts
+
   - Create new Pulumi Project using JavaScript GCP Template
     - ```sh
       pulumi new gcp-javascript
       ```
-  - Install ```@pulumi/kubernetes``` for k8s Object deployment
+  - Install `@pulumi/kubernetes` for k8s Object deployment
     - ```sh
       npm install @pulumi/kubernetes
       ```
@@ -34,6 +39,7 @@
       pulumi config set gcp:zone us-central1-c
       ```
   - Require all dependencies and configs
+
     - ```js
       const pulumi = require("@pulumi/pulumi");
       const gcp = require("@pulumi/gcp");
@@ -93,6 +99,7 @@
     });
     ```
   - Write code for kubernetes Deployment
+
     ```js
     const reactAppLabels = {
       app: "react-app-todo-list",
@@ -139,16 +146,18 @@
       "my-service",
       {
         metadata: {
-          name: "react-todo-list-app-lb-service"
+          name: "react-todo-list-app-lb-service",
         },
-        spec:{
+        spec: {
           type: "LoadBalancer",
-          ports: [{
-            port: 80,
-            targetPort: 80
-          }],
-          selector: reactAppLabels
-        }
+          ports: [
+            {
+              port: 80,
+              targetPort: 80,
+            },
+          ],
+          selector: reactAppLabels,
+        },
       },
       { provider: clusterProvider }
     );
@@ -156,7 +165,7 @@
   - Export required values as output
     ```js
     exports.clusterIP = cluster.endpoint;
-    exports.servicePublicIP = service.status.apply(s => s.loadBalancer.ingress[0].ip)
+    exports.servicePublicIP = service.status.apply(
+      (s) => s.loadBalancer.ingress[0].ip
+    );
     ```
-
-
