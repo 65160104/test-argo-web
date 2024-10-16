@@ -1,10 +1,15 @@
-FROM --platform=linux/amd64 node:14  as builder
+
+
+# ใช้ภาพฐานของ Node.js
+FROM node:16 as build-stage
 WORKDIR /app
-COPY package.json .
+COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 
-FROM --platform=linux/amd64 nginx
+# สร้างเซิร์ฟเวอร์ Nginx สำหรับเสิร์ฟ Vue.js
+FROM nginx:alpine
+COPY --from=build-stage /app/dist /usr/share/nginx/html
 EXPOSE 80
-COPY --from=builder /app/build /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]
